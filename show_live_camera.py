@@ -19,13 +19,13 @@
 import cv2
 
 def get_resolution(option):
-    if option == 0:
+    if option == 1:
         return 640, 480
-    elif option == 1:
-        return 1280, 960
     elif option == 2:
-        return 1920, 1080  # Full HD
+        return 1280, 960
     elif option == 3:
+        return 1920, 1080  # Full HD
+    elif option == 4:
         return 3840, 2160  # 4K
     else:
         print("Invalid option. Defaulting to 640x480.")
@@ -74,10 +74,10 @@ if __name__ == "__main__":
 
     # Get resolution choice from the user
     print("Select resolution:")
-    print("0: 640x480")
-    print("1: 1280x960")
-    print("2: 1920x1080 (Full HD)")
-    print("3: 3840x2160 (4K)")
+    print("1: 640x480")
+    print("2: 1280x960")
+    print("3: 1920x1080 (Full HD)")
+    print("4: 3840x2160 (4K)")
     
     resolution_option = int(input("Enter your choice (0-3): "))
     resolution = get_resolution(resolution_option)
