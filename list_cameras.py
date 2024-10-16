@@ -1,3 +1,13 @@
+#############################################################
+# Simply program using OpenCV to look for available cameras
+# Jeffrey D. Shaffer
+# 2024-10-16
+#
+# Requires this python module:
+#    pip install opencv-python
+#
+#############################################################
+
 import cv2
 
 def list_camera_sources(max_cameras=10):
