@@ -1,13 +1,12 @@
-##########################################################
-# Take a series of JPG images and turn into an MP4 video
-# Created by ChatGPT, corrected by Jds
-# 2024-10-13
+################################################################
+# Takes a series of JPG images and turns then into an MP4 video
+# Jeffrey D. Shaffer
+# 2024-10-16
 #
 # requires this python module:
 #    pip install opencv-python
 #
-##########################################################
-
+################################################################
 
 import cv2
 import os
