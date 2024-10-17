@@ -1,40 +1,36 @@
 ##################################################
-# Take time-lapse pictures with the WebCam
+# Take time-lapse pictures using the WebCam
 # Jeffrey D. Shaffer
-# 2024-10-16
+# 2024-10-17
 #
 # Requires this python module:
 #    pip install opencv-python
-#
-# CAMERA INDEX (My own notes)
-#    MBA Camera is value 1
-#    iPhone as wireless camera is value 2
-#    MiniPC Camera is 0
-#
-# EXPOSURE VALUE (My own notes)
-#    -11 works for MiniPC on cloudy day
-#
-# SUGGESTED TIMINGS
-#    Fast Cloud Movement
-#    Interval: 15s
-#
-#    Cloud Movement and Weather Changes:
-#    Interval: 5 to 15 minutes
-#
-#    Sunrise and Sunset:
-#    Interval: 1 to 3 minutes
-#
-#    Seasonal Changes:
-#    Interval: 1 hour to 1 day
 #
 ##################################################
 
 import cv2
 import time
 import os
+from datetime import datetime
+
 
 # Configuration
-output_dir = "timelapse_images"
+output_dir       = "timelapse_images"
+camera_index     = 0    # 0 works for MiniPCs and MM, 1 for MBA
+exposure_value   = -4   # -11 for outdoors, -4 for indoors (ignored by MM?)
+capture_interval = 1    # in seconds -- 10 is good for clouds
+total_duration   = 15   # in seconds
+start_time = datetime.now()  # to start right away
+#start_time = datetime(2024, 10, 17, 9, 25, 30)   # Set a future start time (yyyy, mm, dd, hh, mm, ss)
+
+# Helper function to wait until a specified time to start
+def wait_until(target_time):
+    while True:
+        now = datetime.now()
+        if now >= target_time:
+            break
+        time.sleep(1)  # Check every second
+
 
 # Helper function to create the output directory
 def create_output_directory(directory):
@@ -42,15 +38,16 @@ def create_output_directory(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+
 # Helper function to let the camera drop a few frames, helps with autofocus and autoexposure on some cameras
 def warmup_camera(cap):
-    # Capture and discard initial frames to let the webcam adjust.
-    for _ in range(2):    # Set to drop the first 2 frames, you can adjust this as you need
+    for _ in range(2):    # Set to drop the first 2 frames, adjust as needed
         ret, _ = cap.read()
         if not ret:
             print("Error during warm-up.")
             break
-        time.sleep(0.1)  # Small delay between each frame
+        time.sleep(0.1)  # Small delay between each drop frame
+
 
 # Helper fuction to ask user for desired capture resolution
 def get_resolution(option):
@@ -66,26 +63,25 @@ def get_resolution(option):
         print("Invalid option. Defaulting to 640x480.")
         return 640, 480
 
+
 # Main function to capture images
 def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value=-11, resolution=(640, 480), total_duration=60):
     # Set the output directory
     create_output_directory(output_dir)
     
-    # Open the webcam (run helper program "list_cameras.py" or "show_live_camera.py" to discover the correct index)
     cap = cv2.VideoCapture(camera_index)
-    
     if not cap.isOpened():
         print("Error: Could not open webcam.")
         return
 
-    # Set the camera resolution (the user is prompted below)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])   # Set width
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])  # Set height
+    # Set the camera resolution (user is prompted below)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
 
     # Turn on Autofocus (manual focus didn't work for me)
     cap.set(cv2.CAP_PROP_AUTOFOCUS, 1)
 
-    # Set the exposure (the user is prompted below)
+    # Set the exposure (set in the "configuration" section above)
     cap.set(cv2.CAP_PROP_EXPOSURE, exposure_value)
     
     # "Warm up" the camera by discarding initial frames
@@ -97,48 +93,36 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
     
     while (time.time() - start_time) < total_duration:
         ret, frame = cap.read()  # Capture a frame
-        
         if not ret:
             print("Failed to grab frame.")
             break
-        
         # Save the captured frame as an image file
         img_name = os.path.join(output_dir, f"image_{image_count:04d}.jpg")
         cv2.imwrite(img_name, frame)
         print(f"Captured {img_name}")
-        
         image_count += 1
-        
         # Wait for the specified interval before capturing the next image
         time.sleep(capture_interval)
-    
     # Release the webcam and close any OpenCV windows
     cap.release()
     cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
-    # Get camera index from the user
-    camera_index = int(input(" Enter camera index to record: "))
-
-    # Get exposure value from the user    
-    exposure_value = float(input(" Enter exposure value: "))
-
-    # Get resolution choice from the user
-    print(" Select resolution:")
-    print(" (1)  640x480")
-    print(" (2) 1280x960")
-    print(" (3) 1920x1080 (Full HD)")
-    print(" (4) 3840x2160 (4K)")
-
-    resolution_option = int(input(" Enter your choice (0-3): "))
+    # Ask user for desired resolution
+    print(" ")
+    print("Select resolution:")
+    print("   (1)  640x480")
+    print("   (2) 1280x960")
+    print("   (3) 1920x1080 (Full HD)")
+    print("   (4) 3840x2160 (4K)")
+    resolution_option = int(input("Enter your choice (1-4): "))
     resolution = get_resolution(resolution_option)
 
-    # Get capture interval (in seconds) from the user
-    capture_interval = float(input(" Enter how over to capture images (every X seconds): "))
-
-    # Get total capture duration (in seconds) from the user
-    total_duration = float(input(" Enter the capture duration (capture for X seconds in total): "))
-
+    # Wait until the set time to start
+    print(f"Starting at {start_time}...")
+    print(" ")
+    wait_until(start_time)
+    
     # Start the camera capture with selected settings
     capture_timelapse_images(camera_index, capture_interval, exposure_value, resolution, total_duration)
