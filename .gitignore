@@ -5,3 +5,5 @@ timelapse_video/
 # Ignore my file of notes
 Jds_Notes.txt
 
+# Ignore OSX files
+.DS_Store
