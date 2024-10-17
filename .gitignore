@@ -1,0 +1,7 @@
+# Ignore the output directories
+timelapse_images/
+timelapse_video/
+
+# Ignore my file of notes
+Jds_Notes.txt
+

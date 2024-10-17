@@ -16,9 +16,9 @@ from datetime import datetime
 
 # Configuration
 output_dir       = "timelapse_images"
-camera_index     = 0    # 0 works for MiniPCs and MM, 1 for MBA
-exposure_value   = -4   # -11 for outdoors, -4 for indoors (ignored by MM?)
-capture_interval = 1    # in seconds -- 10 is good for clouds
+camera_index     = 0    # find using helper programs "list_cameras.py" or "show_live_camera.py"
+exposure_value   = -4   # -11 for outdoors, -4 for indoors seem good
+capture_interval = 1    # in seconds -- 10 seems good for clouds
 total_duration   = 15   # in seconds
 start_time = datetime.now()  # to start right away
 #start_time = datetime(2024, 10, 17, 9, 25, 30)   # Set a future start time (yyyy, mm, dd, hh, mm, ss)
