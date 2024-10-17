@@ -41,6 +41,4 @@ Simply run all of these using `python3 PROGRAM_NAME.py`
 You will need OpenCV installed as well:
 `pip install opencv-python`
 
-Happy tinkering!
-
-Jds
+Happy tinkering! -- Jds
