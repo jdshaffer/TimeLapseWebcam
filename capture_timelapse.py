@@ -77,10 +77,6 @@ def get_resolution(option):
 
 # Main function to capture images
 def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value=-11, resolution=(640, 480)):
-    # Calculate end time from the duration, but only if a duration was specified
-    if total_duration != 0:
-        end_time = calculate_end_time(start_time, total_duration)
-
     # Set the output directory
     create_output_directory(output_dir)
     
@@ -133,6 +129,10 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
 
 
 if __name__ == "__main__":
+    # Calculate end time from the duration, but only if a duration was specified
+    if total_duration != 0:
+        end_time = calculate_end_time(start_time, total_duration)
+
     # Validate end time
     if end_time <= datetime.now():
         print("Error: End time must be in the future!")
