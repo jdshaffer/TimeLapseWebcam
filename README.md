@@ -21,19 +21,19 @@
 	*  (3) 1920x1080 (Full HD)
 	*  (4) 3840x2160 (4K)
 
---
+---
 
 **`convert_to_movie.py`**
 
 * A program to convert the saved jpg files to an mp4 movie
 
---
+---
 
 **`list_cameras.py`**
 
 * A small helper program that lists all the available cameras (real and virtual) a system has
 
---
+---
 
 **`show_live_camera.py`**
 
@@ -52,7 +52,7 @@
 		*  (3) 1920x1080 (Full HD)
 		*  (4) 3840x2160 (4K)
 
---
+---
 
 ### RUNNING THE PROGRAMS
 
