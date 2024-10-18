@@ -5,5 +5,6 @@ timelapse_video/
 # Ignore my file of notes
 Jds_Notes.txt
 
-# Ignore OSX files
+# Other files to ignore
 .DS_Store
+capture_timelapse2.py
