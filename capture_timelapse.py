@@ -7,10 +7,8 @@
 #    pip install opencv-python
 #
 # TO DO
-#    - Combine "total_duration" version with
-#      end_time version
-#      - if total_duration != 0, then use end_time)
-#      - or calculate end_time using total_duration
+#    - double-check all is OK with changes
+#    - make configuration easier to read / use
 #
 ##################################################
 
@@ -32,14 +30,9 @@ end_time = datetime(2024, 10, 18, 14, 31, 40)      # Set end   time (yyyy, mm, d
 
 
 # Helper program to calculate end time based on start time and duration
-
 def calculate_end_time(start_time, duration_seconds):
     return start_time + timedelta(seconds=duration_seconds)
-    
 
-# Calculate end time from the duration, but only if a duration was specified
-if total_duration != 0:
-    end_time = calculate_end_time(start_time, total_duration)
 
 # Helper function to wait until a specified time to start
 def wait_until(target_time):
@@ -84,6 +77,10 @@ def get_resolution(option):
 
 # Main function to capture images
 def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value=-11, resolution=(640, 480)):
+    # Calculate end time from the duration, but only if a duration was specified
+    if total_duration != 0:
+        end_time = calculate_end_time(start_time, total_duration)
+
     # Set the output directory
     create_output_directory(output_dir)
     
