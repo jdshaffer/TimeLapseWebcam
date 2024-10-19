@@ -3,7 +3,7 @@
 # Jeffrey D. Shaffer
 # 2024-10-16
 #
-# requires this python module:
+# Requires this python module:
 #    pip install opencv-python
 #
 ################################################################
@@ -12,7 +12,7 @@ import cv2
 import os
 
 # Configuration
-image_folder = "timelapse_images"    # Folder containing the sequence of images
+image_folder = "timelapse_images"    # Folder containing the input images
 output_folder = "timelapse_video"    # Folder to save the output video
 output_video = os.path.join(output_folder, "timelapse_video.mp4")  # Output video file path
 fps = 30  # Frames per second for the video
