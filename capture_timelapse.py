@@ -1,7 +1,7 @@
 #################################################################################################
 # Take time-lapse pictures using the WebCam
 # Jeffrey D. Shaffer
-# 2024-10-18
+# 2024-10-19
 #
 # Requires this python module:
 #    pip install opencv-python
@@ -10,8 +10,21 @@
 #    list_cameras.py
 #    show_live_camera.py
 #
-# TO DO
-#    - reduce the number of helper functions?
+# Suggested Resolutions (width, height)
+#     640, 480
+#    1280, 960
+#    1920, 1080 (Full HD)
+#    3840, 2160 (4K)
+#
+# Misc Notes
+#    - Tried adding a manual focus setting, but my camera didn't like it
+#    - Tried adding a custom resolution setting, but my camera didn't like that, either
+#
+# Pondering
+#    - Is it better to move all the helper functions inside the main function?
+#         - But perhaps having helper functions is cleaner code? *shrug*
+#    - Should it spit out the settings when run?
+#         - probably redundant as you can just check this file
 #
 #################################################################################################
 
@@ -23,20 +36,21 @@ from datetime import datetime, timedelta
 YES = 1
 NO  = 0
 
-# Configuration ----------------------------------------------------------------------------------
+# Configuration --------------------------------------------------------------------------------------
 output_dir       = "timelapse_images"
 
-camera_index     =  0   # 0 is default webcam on many computers, 1 on MacOS (probably)
-exposure_value   = -4   # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval =  1   # seconds, 10 seems good for clouds
+camera_index     =  1     #  0 is default webcam on many computers, 1 on MacOS (probably)
+exposure_value   = -4     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
+capture_interval =  1     # seconds, 10 seems good for clouds
+resolution = 1280, 960    # set the desired image size (width, height)
 
-use_start_time   = NO   # YES = set the time yourself, NO = ignore start_time and start immediately
-use_end_time     = NO   # YES = set the time yourself, NO = ignore end_time and use total_duration
+use_start_time   = NO     # YES = set the time yourself, NO = ignore start_time and start immediately
+use_end_time     = NO     # YES = set the time yourself, NO = ignore end_time and use total_duration
 
-total_duration   = 10   # seconds, ignored if use_end_time = YES
+total_duration   = 5      # seconds, ignored if use_end_time = YES
 start_time = datetime(2024, 10, 18, 20, 11, 30)    # Set start time (yyyy, mm, dd, hh, mm, ss)
 end_time   = datetime(2024, 10, 18, 20, 12, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
-# ------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 
 # Helper program to calculate end time based on start time and duration
@@ -55,34 +69,19 @@ def wait_until(target_time):
 
 # Helper function to create the output directory
 def create_output_directory(directory):
-    # Create the directory to store captured images if it doesn't exist.
+    # Create the directory if it doesn't exist
     if not os.path.exists(directory):
         os.makedirs(directory)
 
 
 # Helper function to let the camera drop a few frames, helps with autofocus and autoexposure on some cameras
 def warmup_camera(cap):
-    for _ in range(2):    # Set to drop the first 2 frames, adjust as needed
+    for _ in range(2):    # Drop the first 2 frames (adjust as needed)
         ret, _ = cap.read()
         if not ret:
             print("Error during warm-up.")
             break
         time.sleep(0.1)  # Small delay between each drop frame
-
-
-# Helper function to ask user for desired capture resolution
-def get_resolution(option):
-    if option == 1:
-        return 640, 480
-    elif option == 2:
-        return 1280, 960
-    elif option == 3:
-        return 1920, 1080  # Full HD
-    elif option == 4:
-        return 3840, 2160  # 4K
-    else:
-        print("Invalid option. Defaulting to 640x480.")
-        return 640, 480
 
 
 # Main function to capture images
@@ -142,15 +141,6 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
 
 
 if __name__ == "__main__":
-    # Ask user for the desired capture resolution
-    print("\nSelect resolution:")
-    print("   (1)  640x480")
-    print("   (2) 1280x960")
-    print("   (3) 1920x1080 (Full HD)")
-    print("   (4) 3840x2160 (4K)")
-    resolution_option = int(input("\nEnter your choice (1-4): "))
-    resolution = get_resolution(resolution_option)
-
     # Calculate an immediate start_time if use_start_time is turned off
     if use_start_time == NO:
         start_time = datetime.now()
