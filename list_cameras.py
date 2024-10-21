@@ -1,12 +1,12 @@
-#############################################################
-# Simply program using OpenCV to look for available cameras
+#################################################################
+# Simply program to look for available cameras  (Final Version)
 # Jeffrey D. Shaffer
-# 2024-10-16
+# 2024-10-21
 #
-# Requires this python module:
+# Requires the opencv-python module:
 #    pip install opencv-python
 #
-#############################################################
+#################################################################
 
 import cv2
 
