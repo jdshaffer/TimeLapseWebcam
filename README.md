@@ -25,6 +25,8 @@
 **`convert_to_movie.py`**
 
 * A program to convert the saved jpg files to an mp4 movie
+* I considered making this part of the main capture program, but then decided against it.
+	* *MY VERY WEAK EXCUSE --->*  Sometimes, the user might want to delete some pictures before creating the final movie. For example, many times when I try to capture a sunrise, I end up with too many pitch-black pre-dawn shots. To make the finished movie more interesting, I delete the extras first, then convert.
 
 ---
 
