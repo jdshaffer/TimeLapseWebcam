@@ -1,22 +1,22 @@
-##################################################
-# Show live WebCam video feed using OpenCV
+################################################################
+# Shows a live webcam video feed using OpenCV  (Final Version)
 # Jeffrey D. Shaffer
-# 2024-10-19
+# 2024-10-21
 #
-# Requires this python module:
+# Requires the opencv-python module:
 #    pip install opencv-python
 #
-# CAMERA INDEX (Author's notes)
-#    MBA Camera is value 1
-#    MiniPC Camera is 0
+# COMMON CAMERA INDEXS
+#    0 is the default on most systems
+#    1 seems to be the default on modern Macs
+#    (use list_cameras.py to find all available cameras)
 #
 # EXPOSURE VALUE (Author's notes)
 #     -4 seems good for indoors
 #    -10 seems good for sunrise (slightl dark)
 #    -11 seems good for ourdoors
 #
-##################################################
-
+################################################################
 
 import cv2
 
