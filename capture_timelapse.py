@@ -1,30 +1,26 @@
 #################################################################################################
-# Take time-lapse pictures using the WebCam
+# Take time-lapse pictures using the WebCam  (Final Version)
 # Jeffrey D. Shaffer
-# 2024-10-19
+# 2024-10-21
 #
-# Requires this python module:
+# Requires the opencv-python module:
 #    pip install opencv-python
 #
-# Find your camera_index using the helper programs
+# Find the appropriate camera_index using the helper programs:
 #    list_cameras.py
 #    show_live_camera.py
+#
+# Interesting Capture Intervals
+#      10 is good for clouds
+#      30 is good for sunrises
+#    3600 is maybe good for day-to-day changes ( 3600 = 1 hr)
+#   86400 is maybe good for seasonal changes   (86400 = 1 day)
 #
 # Suggested Resolutions (width, height)
 #     640, 480
 #    1280, 960
 #    1920, 1080 (Full HD)
 #    3840, 2160 (4K)
-#
-# Misc Notes
-#    - Tried adding a manual focus setting, but my camera didn't like it
-#    - Tried adding a custom resolution setting, but my camera didn't like that, either
-#
-# Pondering
-#    - Is it better to move all the helper functions inside the main function?
-#         - But perhaps having helper functions is cleaner code? *shrug*
-#    - Should it spit out the settings when run?
-#         - probably redundant as you can just check this file
 #
 #################################################################################################
 
