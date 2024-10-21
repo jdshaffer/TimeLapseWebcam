@@ -8,17 +8,13 @@
 	* `output_dir` -- where to save images
 	* `camera_index` -- which camera to use, including virtual cameras
 	* `exposure_value` -- the camera exposure value
-	* `capture_interval` -- how long to wait, in seconds, between captured pictures
+	* `capture_interval` -- how long to wait, in seconds, between captured images
+	* `resolution` -- which camera resolution to use when capturing images (suggested resolutions given in the program comments)
 	* `use_start_time` -- YES uses the `start_time` given, NO starts immediately
 	* `use_end_time` -- YES uses the `end_time` given, NO uses the `total_duration` given
 	* `total_duration` -- how long, in seconds, to record
 	* `start_time` -- the user specified start time (yyyy, mm, dd, hh, mm, ss)
 	* `end_time` -- the user specified end time (yyyy, mm, dd, hh, mm, ss)
-* At runtime it asks the user for a resolution to record at
-	*  (1)  640x480
-	*  (2) 1280x960
-	*  (3) 1920x1080 (Full HD)
-	*  (4) 3840x2160 (4K)
 
 ---
 
