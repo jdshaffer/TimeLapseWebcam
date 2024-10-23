@@ -6,6 +6,10 @@
 # Requires the opencv-python module:
 #    pip install opencv-python
 #
+# (You can also use the opencv-contrib-python module, but be WARNED,
+#  you should not install both opencv-python and openvc-contrib-python,
+#  as you're likely to encounter conflict errors.)
+#
 # COMMON CAMERA INDEXS
 #    0 is the default on most systems
 #    1 seems to be the default on modern Macs
