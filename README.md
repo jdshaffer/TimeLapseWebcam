@@ -55,6 +55,8 @@
 
 Simply run all of these using the command:  `python3 PROGRAM_NAME.py`
 
-You will need OpenCV installed for them to work: `pip install opencv-python`
+You will need OpenCV installed for them to work: `pip3 install opencv-python`
+
+(Alternativly, you can use OpenCV-Contrib: `pip3 install opencv-contrib-python`, but you should not install *both* modules as you might get conflit errors between them.)
 
 Happy tinkering! -- Jds
