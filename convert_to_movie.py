@@ -7,7 +7,7 @@
 #    pip install opencv-python
 #
 # (You can also use the opencv-contrib-python module, but be WARNED,
-#  you should not install both opencv-python and openvc-contrib-python,
+#  you should not install both opencv-python and opencv-contrib-python,
 #  as you're likely to encounter conflict errors.)
 #
 ##################################################################################
