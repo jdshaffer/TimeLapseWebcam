@@ -1,6 +1,6 @@
 #################################################################################################
 # Take time-lapse pictures using the WebCam  (Final Version)
-# Jeffrey D. Shaffer
+# Code developed by Jeffrey D. Shaffer with assistance from Claude Sonnet
 # 2024-10-21
 #
 # Requires the opencv-python module:
