@@ -1,5 +1,5 @@
 ################################################################################
-# Take time-lapse pictures using the WebCam  (Final+ Version)
+# Take time-lapse pictures using the WebCam  (Version 1.1)
 # Code developed by Jeffrey D. Shaffer with assistance from Claude Sonnet
 # 2024-11-11
 #
@@ -31,7 +31,8 @@
 import cv2
 import time
 import os
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
+from datetime import time as dt_time
 
 YES = 1
 NO  = 0
@@ -51,8 +52,8 @@ pause_at_night    = YES     # YES = pause recording at set times, NO = record al
 total_duration    = 60      # seconds, ignored if use_end_time = YES
 start_time = datetime(2024, 11, 12, 5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
 end_time   = datetime(2024, 11, 13, 5, 30, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
-night_pause_from   = time(21, 30)                 # Stop   recording at 9:30pm
-night_pause_until  = time( 5, 00)                 # Resume recording at 5:00am
+night_pause_from   = dt_time(21, 30)              # Stop   recording at 9:30pm
+night_pause_until  = dt_time( 5, 00)              # Resume recording at 5:00am
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -168,8 +169,8 @@ if __name__ == "__main__":
     # Display the start and stop times
     print(f" ")
     print(f"Starting at {start_time}")
-    print(f"Ending   at {end_time}\n")
-    print(f"Night pause is {'enabled from ' + night_pause_from.strftime('%H:%M') + ' to ' + night_pause_until.strftime('%H:%M') if pause_at_night else 'disabled'}")
+    print(f"Ending   at {end_time}")
+    print(f"Night pause is {'enabled from ' + night_pause_from.strftime('%H:%M') + ' to ' + night_pause_until.strftime('%H:%M') if pause_at_night else 'disabled'}\n")
     
     # Wait until it's time to start
     wait_until(start_time)
