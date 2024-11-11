@@ -12,9 +12,12 @@
 	* `resolution` -- which camera resolution to use when capturing images (suggested resolutions given in the program comments)
 	* `use_start_time` -- YES uses the `start_time` given, NO starts immediately
 	* `use_end_time` -- YES uses the `end_time` given, NO uses the `total_duration` given
+	* `pause_at_night` -- YES pauses the recording during the times specified in the settings `night_pause_from` and `night_pause_until`, NO records all night long
 	* `total_duration` -- how long, in seconds, to record
 	* `start_time` -- the user specified start time (yyyy, mm, dd, hh, mm, ss)
 	* `end_time` -- the user specified end time (yyyy, mm, dd, hh, mm, ss)
+	* `night_pause_from` -- the user specified time to pause recording at night (hh, mm, ss)
+	* `night_pause_until` -- the user specified time to resume recording at night (hh, mm, ss)
 
 ---
 
@@ -55,8 +58,9 @@
 
 Simply run all of these using the command:  `python3 PROGRAM_NAME.py`
 
-You will need OpenCV installed for them to work: `pip3 install opencv-python`
+You will need OpenCV installed for them to work: `pip install opencv-python`
 
 (Alternativly, you can use OpenCV-Contrib: `pip3 install opencv-contrib-python`, but you should not install *both* modules as you might get conflit errors between them.)
+
 
 Happy tinkering! -- Jds
