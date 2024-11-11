@@ -1,0 +1,6 @@
+2024-10-23
+- Initial working version was completed.
+
+
+2024-11-11
+- A "pause at night" feature was added to aid in creating more aesthetically appealing long-term (i.e., week-long) shots
