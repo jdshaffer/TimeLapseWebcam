@@ -1,7 +1,7 @@
-#################################################################################################
-# Take time-lapse pictures using the WebCam  (Final Version)
+################################################################################
+# Take time-lapse pictures using the WebCam  (Final+ Version)
 # Code developed by Jeffrey D. Shaffer with assistance from Claude Sonnet
-# 2024-10-21
+# 2024-11-11
 #
 # Requires the opencv-python module:
 #    pip install opencv-python
@@ -26,30 +26,33 @@
 #    1920, 1080 (Full HD)
 #    3840, 2160 (4K)
 #
-#################################################################################################
+################################################################################
 
 import cv2
 import time
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 
 YES = 1
 NO  = 0
 
 # Configuration --------------------------------------------------------------------------------------
-output_dir       = "timelapse_images"
+output_dir        = "timelapse_images"
 
-camera_index     =  0     #  0 is default webcam on many computers, 1 on MacOS (probably)
-exposure_value   = -4     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval =  1     # seconds, 10 seems good for clouds
-resolution = 1280, 960    # set the desired image size (width, height)
+camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
+exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
+capture_interval  =  60     # 60 seconds = 1 minute
+resolution = 1920, 1080     # set the desired image size (width, height)
 
-use_start_time   = NO     # YES = set the time yourself, NO = ignore start_time and start immediately
-use_end_time     = NO     # YES = set the time yourself, NO = ignore end_time and use total_duration
+use_start_time    = YES     # YES = set the time yourself, NO = ignore start_time and start immediately
+use_end_time      = YES     # YES = set the time yourself, NO = ignore end_time and use total_duration
+pause_at_night    = YES     # YES = pause recording at set times, NO = record all night
 
-total_duration   = 5      # seconds, ignored if use_end_time = YES
-start_time = datetime(2024, 10, 18, 20, 11, 30)    # Set start time (yyyy, mm, dd, hh, mm, ss)
-end_time   = datetime(2024, 10, 18, 20, 12, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
+total_duration    = 60      # seconds, ignored if use_end_time = YES
+start_time = datetime(2024, 11, 12, 5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
+end_time   = datetime(2024, 11, 13, 5, 30, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
+night_pause_from   = time(21, 30)                 # Stop   recording at 9:30pm
+night_pause_until  = time( 5, 00)                 # Resume recording at 5:00am
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -111,6 +114,14 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
 
     # While after start_time and before end_time record and write
     while datetime.now() < end_time:
+    
+        # Adding a feature to allow automatic pausing at night
+        if pause_at_night:
+            current_time = datetime.now().time()
+            if current_time >= night_pause_from or current_time <= night_pause_until:
+                time.sleep(60)  # Do nothing for one minute 
+                continue
+
         # Capture a frame
         ret, frame = cap.read()
         if not ret:
@@ -158,6 +169,7 @@ if __name__ == "__main__":
     print(f" ")
     print(f"Starting at {start_time}")
     print(f"Ending   at {end_time}\n")
+    print(f"Night pause is {'enabled from ' + night_pause_from.strftime('%H:%M') + ' to ' + night_pause_until.strftime('%H:%M') if pause_at_night else 'disabled'}")
     
     # Wait until it's time to start
     wait_until(start_time)
