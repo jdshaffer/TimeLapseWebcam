@@ -1,4 +1,4 @@
-# Time Lapse Webcam (Brief Introduction)
+# Time Lapse Webcam (v1.2) -- Brief Introduction
 
 **`capture_timelapse.py`**
 
