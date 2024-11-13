@@ -20,17 +20,17 @@ YES = 1
 NO  = 0
 
 # Configuration --------------------------------------------------------------------------------------
-camera_index      =   1     #  0 is default webcam on many computers, 1 on MacOS (probably)
+camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
 exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval  =   2     # 60 seconds = 1 minute
+capture_interval  =  60     # 60 seconds = 1 minute
 resolution = 1920, 1080     # set the desired image size (width, height)
 
-use_start_time    =  NO     # YES = set the time yourself, NO = ignore start_time and start immediately
-use_end_time      =  NO     # YES = set the time yourself, NO = ignore end_time and use total_duration
+use_start_time    = YES     # YES = set the time yourself, NO = ignore start_time and start immediately
+use_end_time      = YES     # YES = set the time yourself, NO = ignore end_time and use total_duration
 automatic_pause   =  NO     # YES = pause recording during set times, NO = record as normal
 create_output_video = YES   # YES = automatically convert saved images to final video
 
-total_duration    =  20                              # seconds, ignored if use_end_time = YES
+total_duration    = 600                              # seconds, ignored if use_end_time = YES
 start_time   = datetime(2024, 11, 14,  5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
 end_time     = datetime(2024, 11, 15, 18, 00, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
 pause_from   = dt_time(21, 30)                       # Stop   recording at (mm, ss)
