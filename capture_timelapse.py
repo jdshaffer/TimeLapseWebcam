@@ -6,10 +6,6 @@
 # Requires the opencv-python module:
 #    pip install opencv-python
 #
-# (You can also use the opencv-contrib-python module, but be WARNED,
-#  you should not install both opencv-python and opencv-contrib-python,
-#  as you're likely to encounter conflict errors.)
-#
 # Find the appropriate camera_index using the helper programs:
 #    list_cameras.py
 #    show_live_camera.py
@@ -17,7 +13,7 @@
 # Interesting Capture Intervals
 #      10 is good for clouds
 #      30 is good for sunrises
-#    3600 is maybe good for day-to-day changes ( 3600 = 1 hr)
+#      60 is good for day-to-day changes
 #   86400 is maybe good for seasonal changes   (86400 = 1 day)
 #
 # Suggested Resolutions (width, height)
@@ -42,7 +38,7 @@ output_dir        = "timelapse_images"
 
 camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
 exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval  =  10     # 60 seconds = 1 minute
+capture_interval  =  60     # 60 seconds = 1 minute
 resolution = 1920, 1080     # set the desired image size (width, height)
 
 use_start_time    = YES     # YES = set the time yourself, NO = ignore start_time and start immediately
@@ -50,10 +46,10 @@ use_end_time      = YES     # YES = set the time yourself, NO = ignore end_time 
 automatic_pause   = YES     # YES = pause recording during set times, NO = record as normal
 
 total_duration    = 60                               # seconds, ignored if use_end_time = YES
-start_time   = datetime(2024, 11, 13, 12, 25, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
-end_time     = datetime(2024, 11, 13, 12, 29, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
-pause_from   = dt_time(12, 26)                       # Stop   recording at 9:30pm
-pause_until  = dt_time(12, 27)                       # Resume recording at 5:00am
+start_time   = datetime(2024, 11, 14,  5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
+end_time     = datetime(2024, 11, 15, 18, 00, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
+pause_from   = dt_time(21, 30)                       # Stop   recording at (mm, ss)
+pause_until  = dt_time( 5, 00)                       # Resume recording at (mm, ss)
 # ----------------------------------------------------------------------------------------------------
 
 
