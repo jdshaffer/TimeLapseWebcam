@@ -1,7 +1,7 @@
 ################################################################################
-# Take time-lapse pictures using the WebCam  (Version 1.1)
+# Take time-lapse pictures using the WebCam  (Version 1.1.1)
 # Code developed by Jeffrey D. Shaffer with assistance from Claude Sonnet
-# 2024-11-11
+# 2024-11-13
 #
 # Requires the opencv-python module:
 #    pip install opencv-python
@@ -40,20 +40,20 @@ NO  = 0
 # Configuration --------------------------------------------------------------------------------------
 output_dir        = "timelapse_images"
 
-camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
+camera_index      =   1     #  0 is default webcam on many computers, 1 on MacOS (probably)
 exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval  =  60     # 60 seconds = 1 minute
+capture_interval  =  10     # 60 seconds = 1 minute
 resolution = 1920, 1080     # set the desired image size (width, height)
 
 use_start_time    = YES     # YES = set the time yourself, NO = ignore start_time and start immediately
 use_end_time      = YES     # YES = set the time yourself, NO = ignore end_time and use total_duration
-pause_at_night    = YES     # YES = pause recording at set times, NO = record all night
+automatic_pause   = YES     # YES = pause recording during set times, NO = record as normal
 
-total_duration    = 60      # seconds, ignored if use_end_time = YES
-start_time = datetime(2024, 11, 12, 5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
-end_time   = datetime(2024, 11, 13, 5, 30, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
-night_pause_from   = dt_time(21, 30)              # Stop   recording at 9:30pm
-night_pause_until  = dt_time( 5, 00)              # Resume recording at 5:00am
+total_duration    = 60                               # seconds, ignored if use_end_time = YES
+start_time   = datetime(2024, 11, 13, 12, 25, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
+end_time     = datetime(2024, 11, 13, 12, 29, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
+pause_from   = dt_time(12, 26)                       # Stop   recording at 9:30pm
+pause_until  = dt_time(12, 27)                       # Resume recording at 5:00am
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -116,11 +116,21 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
     # While after start_time and before end_time record and write
     while datetime.now() < end_time:
     
-        # Adding a feature to allow automatic pausing at night
-        if pause_at_night:
+        # Pause recording if automatic_pause is turned on
+        if automatic_pause:
             current_time = datetime.now().time()
-            if current_time >= night_pause_from or current_time <= night_pause_until:
-                time.sleep(60)  # Do nothing for one minute 
+            
+            # Test to see if the pause crosses midnight
+            if pause_from <= pause_until:
+                # Simple case: pause doesn't cross midnight
+                should_pause = pause_from <= current_time <= pause_until
+            else:
+                # Complex case: pause period crosses midnight
+                should_pause = current_time >= pause_from or current_time <= pause_until
+            
+            if should_pause:   # If it is currently time to pause
+                print(f"Pausing image capture from {pause_from} until {pause_until}")
+                time.sleep(60)  # Do nothing for one minute and loop
                 continue
 
         # Capture a frame
@@ -169,8 +179,8 @@ if __name__ == "__main__":
     # Display the start and stop times
     print(f" ")
     print(f"Starting at {start_time}")
-    print(f"Ending   at {end_time}")
-    print(f"Night pause is {'enabled from ' + night_pause_from.strftime('%H:%M') + ' to ' + night_pause_until.strftime('%H:%M') if pause_at_night else 'disabled'}\n")
+    print(f"Ending   at {end_time}\n")
+    print(f"Pause {'enabled from ' + pause_from.strftime('%H:%M') + ' to ' + pause_until.strftime('%H:%M') if automatic_pause else 'disabled'}\n")
     
     # Wait until it's time to start
     wait_until(start_time)
