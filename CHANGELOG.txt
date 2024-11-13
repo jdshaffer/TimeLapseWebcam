@@ -1,19 +1,51 @@
 
-2024-10-23
+---------------
 Version 1.0
+---------------
+2024-10-23
+
 - Initial working version was completed.
 
 
 
-2024-11-11
+
+
+---------------
 Version 1.1
+---------------
+2024-11-11
+
 - A "pause at night" feature was added to aid in creating more aesthetically appealing long-term (i.e., week-long) shots.
 
 
 
-2024-11-13
+
+
+---------------
 Version 1.1.1
+---------------
+2024-11-13
+
 - Debugged the "pause at night" feature. It was written only to handle "pause across midnight" situations, but if you tried to pause simply during the day, the code logic failed.
 - Added a little test to see if the pause_from time is less than the pause_until time (if yes, then same day, if no, then crosses midnight).
 - Based on the results of that test, different "pause" logic is used.
 - Also removed the "night" wording from the pausing variables. Perhaps someone might want to pause during the day for some reason. Simply calling them automatic_pause, pause_from, and pause_until now.
+
+
+
+
+
+---------------
+Version 1.2
+---------------
+2024-11-13
+
+- Merged capture_timelapse.py with convert_to_movie.py, so now everything happens in one, simple program.
+     - Added a few video-related configuration items
+     - Copy-pasted in the the create_video_from_images function
+     - Added a call to that function at the very end of the capture program.
+- Added a "switch" in the configuration that lets the user turn on/off the automatic video creation 
+     - Turning it ON creates an mp4 video from the captured images, but it also safely leaves 
+       those images intact -- NO deleting! The user should decide to delete or keep the
+       individual images, not the capture program.
+- Tidied up the code a little and made the configuration section a bit easier to understand.
