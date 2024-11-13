@@ -8,3 +8,12 @@
 2024-11-11
 - Version 1.1
 - A "pause at night" feature was added to aid in creating more aesthetically appealing long-term (i.e., week-long) shots.
+
+
+
+2024-11-13
+Version 1.1.1
+- Debugged the "pause at night" feature. It was written only to handle "pause across midnight" situations, but if you tried to pause simply during the day, the code logic failed.
+- Added a little test to see if the pause_from time is less than the pause_until time (if yes, then same day, if no, then crosses midnight).
+- Based on the results of that test, different "pause" logic is used.
+- Also removed the "night" wording from the pausing variables. Perhaps someone might want to pause during the day for some reason. Simply calling them automatic_pause, pause_from, and pause_until now.
