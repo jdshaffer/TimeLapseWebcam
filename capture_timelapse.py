@@ -40,7 +40,7 @@ NO  = 0
 # Configuration --------------------------------------------------------------------------------------
 output_dir        = "timelapse_images"
 
-camera_index      =   1     #  0 is default webcam on many computers, 1 on MacOS (probably)
+camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
 exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
 capture_interval  =  10     # 60 seconds = 1 minute
 resolution = 1920, 1080     # set the desired image size (width, height)
