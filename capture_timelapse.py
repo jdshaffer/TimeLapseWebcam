@@ -1,28 +1,14 @@
-################################################################################
-# Take time-lapse pictures using the WebCam  (Version 1.1.1)
+######################################################################################
+# Use the WebCam to take time-lapse pictures and convert them to an mp4 video (v1.2)
 # Code developed by Jeffrey D. Shaffer with assistance from Claude Sonnet
 # 2024-11-13
 #
 # Requires the opencv-python module:
 #    pip install opencv-python
 #
-# Find the appropriate camera_index using the helper programs:
-#    list_cameras.py
-#    show_live_camera.py
+# Change the settings found in Configuration to suit your needs.
 #
-# Interesting Capture Intervals
-#      10 is good for clouds
-#      30 is good for sunrises
-#      60 is good for day-to-day changes
-#   86400 is maybe good for seasonal changes   (86400 = 1 day)
-#
-# Suggested Resolutions (width, height)
-#     640, 480
-#    1280, 960
-#    1920, 1080 (Full HD)
-#    3840, 2160 (4K)
-#
-################################################################################
+######################################################################################
 
 import cv2
 import time
@@ -34,22 +20,26 @@ YES = 1
 NO  = 0
 
 # Configuration --------------------------------------------------------------------------------------
-output_dir        = "timelapse_images"
-
-camera_index      =   0     #  0 is default webcam on many computers, 1 on MacOS (probably)
+camera_index      =   1     #  0 is default webcam on many computers, 1 on MacOS (probably)
 exposure_value    = -11     # -4 for indoors seem good, -11 for outdoors, -10 for sunrise
-capture_interval  =  60     # 60 seconds = 1 minute
+capture_interval  =   2     # 60 seconds = 1 minute
 resolution = 1920, 1080     # set the desired image size (width, height)
 
-use_start_time    = YES     # YES = set the time yourself, NO = ignore start_time and start immediately
-use_end_time      = YES     # YES = set the time yourself, NO = ignore end_time and use total_duration
-automatic_pause   = YES     # YES = pause recording during set times, NO = record as normal
+use_start_time    =  NO     # YES = set the time yourself, NO = ignore start_time and start immediately
+use_end_time      =  NO     # YES = set the time yourself, NO = ignore end_time and use total_duration
+automatic_pause   =  NO     # YES = pause recording during set times, NO = record as normal
+create_output_video = YES   # YES = automatically convert saved images to final video
 
-total_duration    = 60                               # seconds, ignored if use_end_time = YES
+total_duration    =  20                              # seconds, ignored if use_end_time = YES
 start_time   = datetime(2024, 11, 14,  5, 30, 00)    # Set start time (yyyy, mm, dd, hh, mm, ss)
 end_time     = datetime(2024, 11, 15, 18, 00, 00)    # Set   end time (yyyy, mm, dd, hh, mm, ss)
 pause_from   = dt_time(21, 30)                       # Stop   recording at (mm, ss)
 pause_until  = dt_time( 5, 00)                       # Resume recording at (mm, ss)
+
+image_folder  = "timelapse_images"                   # Folder to save captured images
+video_folder  = "timelapse_video"                    # Folder to save the completed video
+output_video = os.path.join(video_folder, "timelapse_video.mp4")  # Output video path and filename
+video_fps = 30                                       # Frames per second for output video
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -68,7 +58,7 @@ def wait_until(target_time):
 
 
 # Helper function to create the output directory
-def create_output_directory(directory):
+def create_image_folderectory(directory):
     # Create the directory if it doesn't exist
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -87,7 +77,7 @@ def warmup_camera(cap):
 # Main function to capture images
 def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value=-11, resolution=(640, 480)):
     # Set the output directory
-    create_output_directory(output_dir)
+    create_image_folderectory(image_folder)
     
     # Select the correct camera to use
     cap = cv2.VideoCapture(camera_index)
@@ -136,7 +126,7 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
             break
             
         # Save the captured frame as an image file
-        img_name = os.path.join(output_dir, f"image_{image_count:04d}.jpg")
+        img_name = os.path.join(image_folder, f"image_{image_count:04d}.jpg")
         cv2.imwrite(img_name, frame)
         
         # Calculate and display remaining time
@@ -154,7 +144,44 @@ def capture_timelapse_images(camera_index=0, capture_interval=15, exposure_value
     # Release the webcam and close any OpenCV windows when done
     cap.release()
     cv2.destroyAllWindows()
-    print("\nTime-lapse capture completed!\n")
+    print("\nTime-lapse capture complete.")
+
+
+# Function to convert saved images to an output video
+def create_video_from_images(image_folder, output_video, video_fps):
+    # Let user know we've moved from image capture to video creation
+    print(f"Converting timelapse images to video...")
+
+    # Check if output folder exists, create it if not
+    if not os.path.exists(video_folder):
+        os.makedirs(video_folder)
+
+    # Get the list of images in the folder and sort them by filename
+    images = [img for img in os.listdir(image_folder) if img.endswith(".jpg")]
+    images.sort()  # Ensure the images are in order
+
+    if len(images) == 0:
+        print("No images found in the folder.")
+        return
+
+    # Read the first image to get the dimensions (height, width)
+    first_image_path = os.path.join(image_folder, images[0])
+    first_frame = cv2.imread(first_image_path)
+    height, width, layers = first_frame.shape
+
+    # Define the codec and create a VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for mp4 video
+    video = cv2.VideoWriter(output_video, fourcc, video_fps, (width, height))
+
+    # Add each image to the video
+    for image in images:
+        image_path = os.path.join(image_folder, image)
+        frame = cv2.imread(image_path)
+        video.write(frame)  # Add the frame to the video
+
+    # Release the video writer
+    video.release()
+    print(f"Video saved as {output_video}\n")
 
 
 
@@ -183,3 +210,7 @@ if __name__ == "__main__":
     
     # Start the camera capture with selected settings
     capture_timelapse_images(camera_index, capture_interval, exposure_value, resolution)
+
+    # Convert the saved images to an output video (mp4)
+    if create_output_video:
+        create_video_from_images(image_folder, output_video, video_fps)
